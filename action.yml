@@ -1,0 +1,20 @@
+name: 'Latexmk'
+description: 'Run `aspell` to check spelling in one or more TeX files.'
+branding:
+  icon: 'book'
+  color: 'purple'
+inputs:
+  files:
+    description: 'Files which to run `aspell` on. Supports glob patterns.'
+    required: false
+    default: '**/*.tex'
+  args:
+    description: 'Arguments passed to `aspell`.'
+    required: false
+    default: '-t'
+runs:
+  using: 'docker'
+  image: 'docker://reitermarkus/aspell'
+  args:
+    - '${{ inputs.files }}'
+    - '${{ inputs.args }}'
