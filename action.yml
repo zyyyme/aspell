@@ -1,4 +1,4 @@
-name: 'Latexmk'
+name: 'Aspell'
 description: 'Run `aspell` to check spelling in one or more TeX files.'
 branding:
   icon: 'book'
