@@ -21,7 +21,7 @@ def assert_rest(rest)
 end
 
 def check_file(file, args)
-  Open3.popen3('aspell', 'pipe', *args) do |stdin, stdout, stderr|
+  Open3.popen3('aspell', 'pipe', *args) do |stdin, stdout, stderr, wait_thread|
     errors = []
 
     extension = File.extname(file)
@@ -93,7 +93,16 @@ def check_file(file, args)
 
     assert_rest(stdout.read)
 
-    errors
+    status = wait_thread.value
+    return errors if status.success?
+
+    $stderr.puts stderr.read
+    exit status.exitstatus
+  rescue StandardError
+    status = wait_thread.value
+    raise if status.success?
+    $stderr.puts stderr.read
+    exit status.exitstatus
   end
 end
 
