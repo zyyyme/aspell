@@ -11,7 +11,7 @@ inputs:
   args:
     description: 'Arguments passed to `aspell`.'
     required: false
-    default: '-t'
+    default: '--lang=en_GB --mode=tex'
 runs:
   using: 'docker'
   image: 'docker://reitermarkus/aspell'
