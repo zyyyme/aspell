@@ -2,5 +2,5 @@
 
 set -euo pipefail
 
-docker build -t reitermarkus/aspell "$(dirname "${0}")" &>/dev/null
-docker run -i --rm -v "${PWD}:${PWD}" -w "${PWD}" reitermarkus/aspell "${@}"
+docker build -t reitermarkus/aspell "$(dirname "${0}")"
+docker run -it --rm -v "${PWD}:${PWD}" -w "${PWD}" reitermarkus/aspell "${@}"

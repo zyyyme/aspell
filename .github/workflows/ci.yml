@@ -30,7 +30,8 @@ jobs:
       - name: Test Action
         uses: ./
         with:
-          args: '-h'
+          files: '**/*.md'
+          args: '--lang=en_GB --mode=markdown'
       - name: Log into Docker Hub
         run: echo '${{ secrets.DOCKER_TOKEN }}' | docker login -u '${{ github.actor }}' --password-stdin
       - name: Push Docker Image

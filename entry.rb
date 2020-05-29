@@ -3,12 +3,18 @@
 require 'open3'
 require 'shellwords'
 require 'strscan'
-require 'uri'
 
 files = ARGV[0].shellsplit.flat_map { |path| Dir.glob(path) }
 args = ARGV[1].shellsplit
 
 raise "No files files specified." if files.empty?
+
+def escape(s)
+  s.gsub(/\r/, '%0D')
+   .gsub(/\n/, '%0A')
+   .gsub(/]/, '%5D')
+   .gsub(/;/, '%3B');
+end
 
 def assert_rest(rest)
   raise "Failed to parse rest of output: #{rest}" unless rest.empty?
@@ -19,13 +25,8 @@ def check_file(file, args)
     errors = []
 
     File.open(file, 'r').each_line.with_index do |line, i|
-      next if line == "\n"
-
+      stdin.print '^'
       stdin.print line
-
-      if line.start_with?('%')
-        next
-      end
 
       loop do
         output = stdout.readline
@@ -64,7 +65,7 @@ def check_file(file, args)
           errors << {
             word: word,
             line: i + 1,
-            column: column,
+            column: column - 1, # https://github.com/GNUAspell/aspell/issues/277
             suggestions: suggestions,
           }
         end
@@ -85,7 +86,13 @@ files.each do |file|
   errors = check_file(file, args)
 
   errors.each do |word:, line:, column:, suggestions:|
-    puts "::error file=#{URI.escape(file)},line=#{line},col=#{column}::#{URI.escape("#{word}: #{suggestions.join(', ')}")}"
+    message = <<~EOF
+      Wrong spelling of “#{word}” found. Maybe you meant one of the following?
+
+      #{suggestions.join(', ')}
+    EOF
+
+    puts "::error file=#{escape(file)},line=#{line},col=#{column}::#{escape(message)}"
   end
 
   exit errors.empty? ? 0 : 1
