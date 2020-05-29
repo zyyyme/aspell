@@ -24,7 +24,22 @@ def check_file(file, args)
   Open3.popen3('aspell', 'pipe', *args) do |stdin, stdout, stderr|
     errors = []
 
+    extension = File.extname(file)
+    code_block = false
+
     File.open(file, 'r').each_line.with_index do |line, i|
+      if extension == '.tex'
+        if line.match?(/^\s*\\begin{\s*lstlisting\s*}/)
+          code_block = true
+          next
+        elsif line.match?(/^\s*\\end{\s*lstlisting\s*}/)
+          code_block = false
+          next
+        elsif code_block
+          next
+        end
+      end
+
       stdin.print '^'
       stdin.print line
 
