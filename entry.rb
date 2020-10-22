@@ -106,18 +106,28 @@ def check_file(file, args)
   end
 end
 
+exit_status = 0
+
 files.each do |file|
+  puts "Checking spelling in file '#{file}':"
+
   errors = check_file(file, args)
 
-  errors.each do |word:, line:, column:, suggestions:|
-    message = <<~EOF
-      Wrong spelling of “#{word}” found. Maybe you meant one of the following?
+  if errors.empty?
+    puts "No errors found."
+  else
+    errors.each do |word:, line:, column:, suggestions:|
+      message = <<~EOF
+        Wrong spelling of “#{word}” found. Maybe you meant one of the following?
 
-      #{suggestions.join(', ')}
-    EOF
+        #{suggestions.join(', ')}
+      EOF
 
-    puts "::error file=#{escape(file)},line=#{line},col=#{column}::#{escape(message)}"
+      puts "::error file=#{escape(file)},line=#{line},col=#{column}::#{escape(message)}"
+    end
+
+    exit_status = 1
   end
-
-  exit errors.empty? ? 0 : 1
 end
+
+exit exit_status
