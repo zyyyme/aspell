@@ -96,13 +96,7 @@ def check_file(file, args)
     status = wait_thread.value
     return errors if status.success?
 
-    $stderr.puts stderr.read
-    exit status.exitstatus
-  rescue StandardError
-    status = wait_thread.value
-    raise if status.success?
-    $stderr.puts stderr.read
-    exit status.exitstatus
+    raise stderr.read
   end
 end
 
@@ -128,6 +122,9 @@ files.each do |file|
 
     exit_status = 1
   end
+rescue => e
+  puts "::error file=#{escape(file)}::Error: #{e}"
+  exit_status = 1
 end
 
 exit exit_status
