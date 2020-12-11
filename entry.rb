@@ -44,7 +44,7 @@ def check_file(file, args)
         end
 
         stdin.print '^'
-        stdin.print line
+        stdin.puts line.chomp
 
         loop do
           output = stdout.readline
