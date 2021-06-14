@@ -11,4 +11,5 @@ RUN apk add --no-cache \
       ruby
 
 COPY entry.rb /
+
 ENTRYPOINT ["/entry.rb"]
