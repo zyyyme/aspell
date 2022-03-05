@@ -17,7 +17,7 @@ This action checks spelling in one or more TeX files.
 ## Example Usage
 
 ```yml
-uses: reitermarkus/aspell@master
+uses: reitermarkus/aspell@main
 with:
   files: ReadMe.md
   args: --lang=en_GB --mode=markdown
