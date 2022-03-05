@@ -14,7 +14,7 @@ inputs:
     default: '--lang=en_GB --mode=tex'
 runs:
   using: 'docker'
-  image: 'docker://ghcr.io/reitermarkus/aspell:main'
+  image: 'Dockerfile'
   args:
     - '${{ inputs.files }}'
     - '${{ inputs.args }}'
