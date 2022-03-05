@@ -1,4 +1,4 @@
-name: 'Aspell'
+name: 'Run Aspell'
 description: 'Run `aspell` to check spelling in one or more TeX files.'
 author: reitermarkus
 branding:
