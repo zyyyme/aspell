@@ -119,13 +119,13 @@ files.each do |file|
     puts "No errors found."
   else
     errors.each do |error|
+      word, line, column, suggestion = error.values
       message = <<~EOF
-        Wrong spelling of “#{error.word}” found (line #{error.line}, column #{error.column}). Maybe you meant one of the following?
-
-        #{error.suggestions.join(', ')}
+        Wrong spelling of “#{word}” found (line #{line}, column #{column}). Maybe you meant one of the following?
+        #{suggestions.join(', ')}
       EOF
 
-      puts "::error file=#{escape(file)},line=#{error.line},col=#{error.column}::#{escape(message)}"
+      puts "::error file=#{escape(file)},line=#{line},col=#{column}::#{escape(message)}"
     end
 
     exit_status = 1
