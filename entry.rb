@@ -114,6 +114,7 @@ files.each do |file|
 
   errors = check_file(file, args)
 
+  puts "Error checking in file '#{file}' complete"
   if errors.empty?
     puts "No errors found."
   else
