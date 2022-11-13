@@ -8,7 +8,7 @@ RUN apk add --no-cache \
       aspell-fr~=0.50 \
       aspell-ru~=00.99f7-r0 \
       aspell-uk~=1.4.0 \
-      ruby~=3.0.3
+      ruby~=3.0.4
 
 COPY entry.rb /
 
