@@ -80,7 +80,6 @@ def check_file(file, args)
 
             output.skip(/\n/)
 
-            puts "found some"
             errors << {
               word: word,
               line: i + 1,
@@ -119,14 +118,14 @@ files.each do |file|
   if errors.empty?
     puts "No errors found."
   else
-    errors.each do |word:, line:, column:, suggestions:|
+    errors.each do |error|
       message = <<~EOF
-        Wrong spelling of “#{word}” found (line #{line}, column #{column}). Maybe you meant one of the following?
+        Wrong spelling of “#{error.word}” found (line #{error.line}, column #{error.column}). Maybe you meant one of the following?
 
-        #{suggestions.join(', ')}
+        #{error.suggestions.join(', ')}
       EOF
 
-      puts "::error file=#{escape(file)},line=#{line},col=#{column}::#{escape(message)}"
+      puts "::error file=#{escape(file)},line=#{error.line},col=#{error.column}::#{escape(message)}"
     end
 
     exit_status = 1
