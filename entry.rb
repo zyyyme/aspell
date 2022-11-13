@@ -119,7 +119,7 @@ files.each do |file|
     puts "No errors found."
   else
     errors.each do |error|
-      word, line, column, suggestion = error.values
+      word, line, column, suggestions = error.values
       message = <<~EOF
         Wrong spelling of “#{word}” found (line #{line}, column #{column}). Maybe you meant one of the following?
         #{suggestions.join(', ')}
