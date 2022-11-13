@@ -80,6 +80,7 @@ def check_file(file, args)
 
             output.skip(/\n/)
 
+            puts "found some"
             errors << {
               word: word,
               line: i + 1,
